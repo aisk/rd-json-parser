@@ -1,3 +1,6 @@
 a.out.dSYM
 a.out
+
 *.swp
+
+catch.hpp

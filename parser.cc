@@ -1,10 +1,19 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <sstream>
+#include <typeinfo>
 #include "parser.h"
 
-
 using namespace json;
+
+std::string JSONObject::ToString() {
+    throw std::exception();
+}
+
+std::string Integer::ToString() {
+    return std::to_string(value);
+}
 
 Parser::Parser(std::string &text) {
     this->at = 0;
@@ -14,8 +23,8 @@ Parser::Parser(std::string &text) {
 }
 
 char Parser::Next() {
-    ch = this->text[this->at];
-    this->at ++;
+    ch = text[at];
+    at ++;
     return ch;
 }
 
@@ -23,28 +32,65 @@ char Parser::Eat(char c) {
     if (ch != c) {
         throw std::exception();
     }
-    this->at ++;
-    ch = this->text[this->at];
+    at ++;
+    ch = text[at];
     return ch;
 }
 
 void Parser::SkipWhite() {
-    std::cout << this->ch << std::endl;
-    while (this->ch <= ' ') {
-        this->Next();
+    while (ch <= ' ') {
+        Next();
     }
 }
 
-JsonObject *Parser::Parse() {
-    this->SkipWhite();
-    std::cout << this->at << std::endl;
+JSONObject *Parser::ParseObject() {
+    return nullptr;
+}
+
+JSONObject *Parser::ParseNumber() {
+    auto s = std::string("");
+    if (ch == '-') {
+        s.push_back(ch);
+        Eat('-');
+    }
+    while (std::isdigit(ch)) {
+        s.push_back(ch);
+        Next();
+    }
+    if (ch == '.') {
+        // float
+        while (std::isdigit(ch)) {
+            s.push_back(ch);
+            Next();
+        }
+        return new Float(std::atof(s.c_str()));
+    } else {
+        // integer
+        return new Integer(std::atol(s.c_str()));
+    }
+}
+
+JSONObject *Parser::ParseArray() {
+    return nullptr;
+}
+
+JSONObject *Parser::ParseString() {
+    return nullptr;
+}
+
+JSONObject *Parser::ParseWord() {
+    return nullptr;
+}
+
+JSONObject *Parser::Parse() {
+    SkipWhite();
     switch(ch) {
     case '{':
-        return this->ParseObject();
+        return ParseObject();
     case '[':
-        return this->ParseArray();
+        return ParseArray();
     case '"':
-        return this->ParseString();
+        return ParseString();
     case '-':
     case '1':
     case '2':
@@ -56,14 +102,8 @@ JsonObject *Parser::Parse() {
     case '8':
     case '9':
     case '0':
-        return this->ParseNumber();
+        return ParseNumber();
     default:
-        return this->ParseWord();
+        return ParseWord();
     }
-}
-
-int main() {
-    auto s = std::string(" 1 ");
-    auto parser = std::make_shared<Parser>(s);
-    parser->Parse();
 }

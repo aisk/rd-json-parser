@@ -3,29 +3,47 @@
 #include <string>
 
 namespace json {
-    class JsonObject {
+    class JSONObject {
+        public:
         virtual std::string ToString();
     };
 
-    class Object : Json {
+    class Object : public JSONObject {
     };
 
-    class Array : Json {
+    class Array : public JSONObject {
     };
 
-    class Number : Json {
+    class Number : public JSONObject {
     };
 
-    class String : Json {
+    class Integer : public Number {
+        long value;
+        public:
+        Integer(long value) : value(value) {};
+        long GetValue() { return value; };
+        virtual std::string ToString();
     };
 
-    class True : Json {
+    class Float : public Number {
+        double value;
+        public:
+        Float(double value) : value(value) {};
     };
 
-    class False : Json {
+    class String : public JSONObject {
+        std::string value;
+        public:
+        String(std::string value) : value(value) {};
     };
 
-    class Null : Json {
+    class True : public JSONObject {
+    };
+
+    class False : public JSONObject {
+    };
+
+    class Null : public JSONObject {
     };
 
     class Parser {
@@ -36,13 +54,13 @@ namespace json {
         char Next();
         char Eat(char);
         void SkipWhite();
-        JsonObject *ParseObject();
-        JsonObject *ParseArray();
-        JsonObject *ParseString();
-        JsonObject *ParseNumber();
-        JsonObject *ParseWord();
+        JSONObject *ParseObject();
+        JSONObject *ParseArray();
+        JSONObject *ParseString();
+        JSONObject *ParseNumber();
+        JSONObject *ParseWord();
         public:
         Parser(std::string &);
-        JsonObject *Parse();
+        JSONObject *Parse();
     };
 }
