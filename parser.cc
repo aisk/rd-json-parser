@@ -15,6 +15,10 @@ std::string Integer::ToString() {
     return std::to_string(value);
 }
 
+std::string Float::ToString() {
+	return std::to_string(value);
+}
+
 Parser::Parser(std::string &text) {
     this->at = 0;
     this->lino = 0;
@@ -32,8 +36,8 @@ char Parser::Eat(char c) {
     if (ch != c) {
         throw std::exception();
     }
-    at ++;
-    ch = text[at];
+	ch = text[at];
+	at++;
     return ch;
 }
 
@@ -53,13 +57,15 @@ JSONObject *Parser::ParseNumber() {
         s.push_back(ch);
         Eat('-');
     }
-    while (std::isdigit(ch)) {
+    while (isdigit(ch)) {
         s.push_back(ch);
         Next();
     }
     if (ch == '.') {
         // float
-        while (std::isdigit(ch)) {
+		this->Eat('.');
+		s.push_back('.');
+        while (isdigit(ch)) {
             s.push_back(ch);
             Next();
         }

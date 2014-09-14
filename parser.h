@@ -29,6 +29,8 @@ namespace json {
         double value;
         public:
         Float(double value) : value(value) {};
+		double GetValue() { return value; };
+		virtual std::string ToString();
     };
 
     class String : public JSONObject {
