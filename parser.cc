@@ -7,6 +7,16 @@
 
 using namespace json;
 
+SyntaxError::SyntaxError(size_t at, size_t lino, std::string msg) {
+	this->at = at;
+	this->lino = lino;
+	this->msg = msg;
+}
+
+const char *SyntaxError::what() {
+	return this->msg.c_str();
+}
+
 std::string JSONObject::ToString() {
     throw std::exception();
 }
@@ -34,7 +44,9 @@ char Parser::Next() {
 
 char Parser::Eat(char c) {
     if (ch != c) {
-        throw std::exception();
+		std::stringstream s;
+		s << "expect: " << c << ", got: " << ch;
+        throw SyntaxError(this->at, this->lino, s.str());
     }
 	ch = text[at];
 	at++;

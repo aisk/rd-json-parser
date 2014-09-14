@@ -3,8 +3,17 @@
 #include <string>
 
 namespace json {
+	class SyntaxError : public std::exception {
+		size_t at;
+		size_t lino;
+		std::string msg;
+	public:
+		explicit SyntaxError(size_t at, size_t lino, std::string msg);
+		virtual const char *what();
+	};
+
     class JSONObject {
-        public:
+    public:
         virtual std::string ToString();
     };
 
@@ -19,24 +28,24 @@ namespace json {
 
     class Integer : public Number {
         long value;
-        public:
-        Integer(long value) : value(value) {};
+    public:
+		explicit Integer(long value) : value(value) {};
         long GetValue() { return value; };
         virtual std::string ToString();
     };
 
     class Float : public Number {
         double value;
-        public:
-        Float(double value) : value(value) {};
+    public:
+		explicit Float(double value) : value(value) {};
 		double GetValue() { return value; };
 		virtual std::string ToString();
     };
 
     class String : public JSONObject {
         std::string value;
-        public:
-        String(std::string value) : value(value) {};
+    public:
+		explicit String(std::string value) : value(value) {};
     };
 
     class True : public JSONObject {
@@ -61,8 +70,8 @@ namespace json {
         JSONObject *ParseString();
         JSONObject *ParseNumber();
         JSONObject *ParseWord();
-        public:
-        Parser(std::string &);
+    public:
+		explicit Parser(std::string &);
         JSONObject *Parse();
     };
 }
