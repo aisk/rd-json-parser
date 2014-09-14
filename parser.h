@@ -46,6 +46,8 @@ namespace json {
         std::string value;
     public:
 		explicit String(std::string value) : value(value) {};
+		std::string GetValue() { return value; };
+		virtual std::string ToString();
     };
 
     class True : public JSONObject {

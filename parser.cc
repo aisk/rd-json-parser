@@ -29,6 +29,10 @@ std::string Float::ToString() {
 	return std::to_string(value);
 }
 
+std::string String::ToString() {
+	return value;
+}
+
 Parser::Parser(std::string &text) {
     this->at = 0;
     this->lino = 0;
@@ -94,7 +98,17 @@ JSONObject *Parser::ParseArray() {
 
 JSONObject *Parser::ParseString() {
 	auto s = std::string();
-    return nullptr;
+	while (Next()) {
+		if (ch == '"') {
+			return new String(s);
+		}
+		if (ch == '\\') {
+
+		}
+		else {
+			s.push_back(ch);
+		}
+	}
 }
 
 JSONObject *Parser::ParseKeyword() {

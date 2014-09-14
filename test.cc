@@ -50,3 +50,10 @@ TEST_CASE("Parse null", "[json::Parser::ParseKeyword]") {
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<Null *>(r) != NULL);
 }
+
+TEST_CASE("Parse string", "[json::Parser::ParseString]") {
+	auto s = std::string(" \"Hello World!\"  ");
+	auto parser = std::make_shared<Parser>(s);
+	auto r = parser->Parse();
+	REQUIRE(dynamic_cast<String *>(r)->GetValue() == std::string("Hello World!"));
+}
