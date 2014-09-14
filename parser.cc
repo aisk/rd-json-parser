@@ -93,10 +93,36 @@ JSONObject *Parser::ParseArray() {
 }
 
 JSONObject *Parser::ParseString() {
+	auto s = std::string();
     return nullptr;
 }
 
-JSONObject *Parser::ParseWord() {
+JSONObject *Parser::ParseKeyword() {
+	switch (ch) {
+	case 't':
+		Eat('t');
+		Eat('r');
+		Eat('u');
+		Eat('e');
+		return new True();
+	case 'f':
+		Eat('f');
+		Eat('a');
+		Eat('l');
+		Eat('s');
+		Eat('e');
+		return new False();
+	case 'n':
+		Eat('n');
+		Eat('u');
+		Eat('l');
+		Eat('l');
+		return new Null();
+	default:
+		std::stringstream s;
+		s << "Unexpected '" << ch << "'";
+		throw SyntaxError(at, lino, s.str());
+	}
     return nullptr;
 }
 
@@ -122,6 +148,6 @@ JSONObject *Parser::Parse() {
     case '0':
         return ParseNumber();
     default:
-        return ParseWord();
+        return ParseKeyword();
     }
 }

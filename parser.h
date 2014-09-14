@@ -69,7 +69,7 @@ namespace json {
         JSONObject *ParseArray();
         JSONObject *ParseString();
         JSONObject *ParseNumber();
-        JSONObject *ParseWord();
+        JSONObject *ParseKeyword();
     public:
 		explicit Parser(std::string &);
         JSONObject *Parse();
