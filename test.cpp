@@ -3,9 +3,8 @@
 #include <memory>
 #include <string>
 #include <iostream>
-
 #include "catch.hpp"
-#include "parser.h"
+#include "parser.hpp"
 
 using namespace json;
 

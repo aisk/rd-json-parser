@@ -2,8 +2,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <typeinfo>
-#include "parser.h"
+#include "parser.hpp"
 
 using namespace json;
 
@@ -109,6 +108,7 @@ JSONObject *Parser::ParseString() {
             s.push_back(ch);
         }
     }
+    throw SyntaxError(at, lino, std::string("Expect \""));
 }
 
 JSONObject *Parser::ParseKeyword() {
