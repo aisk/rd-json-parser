@@ -14,6 +14,7 @@ TEST_CASE("Parse integer", "[json::Parser::ParseNumber]") {
     auto parser = std::make_shared<Parser>(s);
     auto r = parser->Parse();
     REQUIRE(dynamic_cast<Integer *>(r)->GetValue() == 42);
+    delete r;
 }
 
 TEST_CASE("Parse float", "[json::Parser::ParseNumber]") {
@@ -21,6 +22,7 @@ TEST_CASE("Parse float", "[json::Parser::ParseNumber]") {
 	auto parser = std::make_shared<Parser>(s);
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<Float *>(r)->GetValue() == 0.618);
+    delete r;
 }
 
 TEST_CASE("Parse negative number", "[json::Parser::ParseNumber]") {
@@ -28,6 +30,7 @@ TEST_CASE("Parse negative number", "[json::Parser::ParseNumber]") {
 	auto parser = std::make_shared<Parser>(s);
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<Integer *>(r)->GetValue() == -42);
+    delete r;
 }
 
 TEST_CASE("Parse true", "[json::Parser::ParseKeyword]") {
@@ -35,6 +38,7 @@ TEST_CASE("Parse true", "[json::Parser::ParseKeyword]") {
 	auto parser = std::make_shared<Parser>(s);
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<True *>(r) != NULL);
+    delete r;
 }
 
 TEST_CASE("Parse false", "[json::Parser::ParseKeyword]") {
@@ -42,6 +46,7 @@ TEST_CASE("Parse false", "[json::Parser::ParseKeyword]") {
 	auto parser = std::make_shared<Parser>(s);
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<False *>(r) != NULL);
+    delete r;
 }
 
 TEST_CASE("Parse null", "[json::Parser::ParseKeyword]") {
@@ -49,6 +54,7 @@ TEST_CASE("Parse null", "[json::Parser::ParseKeyword]") {
 	auto parser = std::make_shared<Parser>(s);
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<Null *>(r) != NULL);
+    delete r;
 }
 
 TEST_CASE("Parse string", "[json::Parser::ParseString]") {
@@ -56,4 +62,5 @@ TEST_CASE("Parse string", "[json::Parser::ParseString]") {
 	auto parser = std::make_shared<Parser>(s);
 	auto r = parser->Parse();
 	REQUIRE(dynamic_cast<String *>(r)->GetValue() == std::string("Hello World!"));
+    delete r;
 }
