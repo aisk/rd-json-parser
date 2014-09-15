@@ -1,3 +1,6 @@
+default: a.out
+	./a.out
+
 catch.hpp:
 	wget https://raw.github.com/philsquared/Catch/master/single_include/catch.hpp
 
@@ -7,4 +10,4 @@ a.out: catch.hpp
 clean:
 	rm -rf a.out a.out.dSYM
 
-.PHONY: clean test
+.PHONY: default clean test
